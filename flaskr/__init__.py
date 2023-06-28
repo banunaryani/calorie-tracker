@@ -42,4 +42,8 @@ def create_app(test_config=None):
     app.register_blueprint(food.bp)
     app.add_url_rule("/", endpoint="index")
 
+    from . import tracker
+
+    app.register_blueprint(tracker.bp)
+
     return app
