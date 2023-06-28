@@ -1,0 +1,28 @@
+{% extends 'base.html'%} {% block header %}
+<h1>{% block title %}Today's Meal ({{date}}){% endblock %}</h1>
+{% if g.user %}
+<a class="action" href="{{ url_for('tracker.create') }}">New</a>
+{% endif %} {% endblock %} {% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Food Name</th>
+      <th>Quantity (gram)</th>
+      <th>Calorie</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for food in today %}
+      <tr>
+        <td>{{food['food_name']}}</td>
+        <td>{{food['quantity']}}</td>
+        <td>{{food['calorie']}}</td>
+        <td>
+          <a class="action" href="{{ url_for('tracker.update',id=food['id']) }}">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

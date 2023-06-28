@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Meal Entry{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="tracking_date">Date</label>
+    <input type="date" name="tracking_date" id="tracking_date" value="{{ date.strftime('%Y-%m-%d') or tracker['tracking_date'] }}" required>
+
+    <label for="food_id">Select Food</label>
+    <!-- <input name="food_name" id="food_name" value="{{ request.form['food_name'] }}" required> -->
+    <select name="food_id" id="food_id">
+        {% if foods != [] %}
+        {% for food in foods %}
+        {% if food['id'] == tracking['food_id'] %}
+        <option value="{{food['id']}}" selected>{{food['food_name']}} ({{food['food_calorie']}} kcal)</option>
+        {% else %}
+        <option value="{{food['id']}}">{{food['food_name']}} ({{food['food_calorie']}} kcal)</option>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </select>
+
+    <label for="quantity">Quantity (gram)</label>
+    <input name="quantity" id="quantity" value="{{ request.form['quantity'] or tracking['quantity'] }}" required>
+    
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('tracker.delete', id=tracking['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}
