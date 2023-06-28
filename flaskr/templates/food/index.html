@@ -1,33 +1,30 @@
-{% extends 'base.html'%}
-
-{% block header %}
-    <h1>{% block title %}Food List{% endblock %}</h1>
-    {% if g.user %}
-        <a class="action" href="{{ url_for('food.create') }}">New</a>
-    {% endif %}
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html'%} {% block header %}
+<h1>{% block title %}Food List{% endblock %}</h1>
+{% if g.user %}
+<a class="action" href="{{ url_for('food.create') }}">New</a>
+{% endif %} {% endblock %} {% block content %}
 <table class="table">
-    <thead>
-        <tr>
-            <th>Food Name</th>
-            <th>Calorie (@ 100gr)</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for food in food_list %}
-        <tr>
-            <td>{{food['nama']}}</td>
-            <td>{{food['calorie_per_100gr']}}</td>
-            <td>
-                {% if g.user['id']==food['user_id'] %}
-                    <a class="action" href="{{ url_for('food.update',id=food['id']) }}">Edit</a>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Food Name</th>
+      <th>Calorie (@ 100gr)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for food in food_list %}
+    <tr>
+      <td>{{food['food_name']}}</td>
+      <td>{{food['food_calorie']}}</td>
+      <td>
+        {% if g.user['id']==food['user_id'] %}
+        <a class="action" href="{{ url_for('food.update',id=food['id']) }}"
+          >Edit</a
+        >
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

@@ -11,9 +11,9 @@ bp = Blueprint("food", __name__)
 def index():
     db = get_db()
     food_list = db.execute(
-        "SELECT f.id, f.user_id, f.nama, f.calorie_per_100gr"
+        "SELECT f.id, f.user_id, f.food_name, f.food_calorie"
         " FROM food f JOIN user u ON f.user_id=u.id"
-        " ORDER BY nama"
+        " ORDER BY food_name"
     ).fetchall()
 
     return render_template("food/index.html", food_list=food_list)
@@ -35,7 +35,7 @@ def create():
         else:
             db = get_db()
             db.execute(
-                "INSERT INTO food (nama, calorie_per_100gr, user_id)"
+                "INSERT INTO food (food_name, food_calorie, user_id)"
                 " VALUES (?, ?, ?)",
                 (
                     food_name,
@@ -53,7 +53,7 @@ def get_food(id, check_user=True):
     food = (
         get_db()
         .execute(
-            "SELECT f.id, nama, calorie_per_100gr, user_id, username"
+            "SELECT f.id, food_name, food_calorie, user_id, username"
             " FROM food f JOIN user u ON f.user_id=u.id"
             " WHERE f.id = ?",
             (id,),
@@ -88,7 +88,7 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                "UPDATE food SET nama = ?, calorie_per_100gr = ?" " WHERE id = ?",
+                "UPDATE food SET food_name = ?, food_calorie = ?" " WHERE id = ?",
                 (food_name, calorie, id),
             )
             db.commit()
