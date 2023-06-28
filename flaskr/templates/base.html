@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>{% block title %}{% endblock %} - Calorie Tracker</title>
 <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
 <nav>
-    <h1>Flaskr</h1>
+    <h1>Calorie Tracker</h1>
     <ul>
         {% if g.user %}
-            <li><span>{{g.user['username']}}</span></li>
-            <li><a href="{{url_for('auth.logout')}}"></a></li>
+        <li><a href="{{url_for('tracker.index')}}">Meal Tracker</a></li>
+        <li><a href="{{url_for('food.index')}}">Food List</a></li>
+        <li><span>Welcome, {{g.user['username']}}</span></li>
+            <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
         {% else %}
-            <li><a href="{{url_for('auth.register')}}"></a></li>
-            <li><a href="{{url_for('auth.login')}}"></a></li>
+            <li><a href="{{url_for('auth.register')}}">Register</a></li>
+            <li><a href="{{url_for('auth.login')}}">Login</a></li>
         {% endif %}
     </ul>
 </nav>
