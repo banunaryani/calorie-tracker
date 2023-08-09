@@ -1,0 +1,36 @@
+// Required
+@import "../bootstrap/scss/functions";
+
+// Default variable overrides
+$hr-margin-y : 1.5rem;
+
+// Required
+@import "../bootstrap/scss/variables";
+@import "../bootstrap/scss/variables-dark";
+@import "../bootstrap/scss/maps";
+@import "../bootstrap/scss/mixins";
+@import "../bootstrap/scss/root";
+
+// Optional Bootstrap components here
+@import "../bootstrap/scss/reboot";
+@import "../bootstrap/scss/type";
+@import "../bootstrap/scss/alert";
+@import "../bootstrap/scss/badge";
+@import "../bootstrap/scss/breadcrumb";
+@import "../bootstrap/scss/buttons";
+@import "../bootstrap/scss/card";
+@import "../bootstrap/scss/close";
+@import "../bootstrap/scss/containers";
+@import "../bootstrap/scss/dropdown";
+@import "../bootstrap/scss/forms";
+@import "../bootstrap/scss/grid";
+@import "../bootstrap/scss/grid";
+@import "../bootstrap/scss/images";
+@import "../bootstrap/scss/list-group";
+@import "../bootstrap/scss/modal";
+@import "../bootstrap/scss/nav";
+@import "../bootstrap/scss/navbar";
+@import "../bootstrap/scss/placeholders";
+@import "../bootstrap/scss/tables";
+@import "../bootstrap/scss/transitions";
+// etc
