@@ -2,6 +2,12 @@ import os
 
 from flask import Flask
 
+from flask import (
+    redirect,
+    url_for,
+    g,
+)
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -25,9 +31,12 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route("/hello")
+    @app.route("/")
     def hello():
-        return "Hello, World!"
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+
+        return redirect(url_for("tracker.index"))
 
     from . import db
 
@@ -45,5 +54,9 @@ def create_app(test_config=None):
     from . import tracker
 
     app.register_blueprint(tracker.bp)
+
+    from . import api
+
+    app.register_blueprint(api.bp)
 
     return app
