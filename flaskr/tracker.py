@@ -22,20 +22,43 @@ bp = Blueprint("tracker", __name__, url_prefix="/tracker")
 
 @bp.route("", methods=["GET", "POST"])
 def index():
-    db = get_db()
+    if request.method == "POST":
+        food_id = request.form["food_id"]
+        quantity = request.form["quantity"]
 
-    today = db.execute(
-        "SELECT t.id, tracking_date, t.user_id, food_id, f.food_name, quantity, quantity*f.food_calorie/100 AS calorie"
-        " FROM tracker t JOIN food f on t.food_id=f.id"
-        " WHERE tracking_date = CURRENT_DATE"
-    ).fetchall()
+        db = get_db()
+        error = None
 
-    # return get_tracking(check_user=True)
+        if not food_id:
+            error = "Food field is required"
+        elif not quantity:
+            error = "Food quantity field is required"
+
+        if error is None:
+            try:
+                db.execute(
+                    "INSERT INTO tracker (tracking_date,user_id,food_id,quantity)"
+                    " VALUES (?, ?, ?, ?)",
+                    (
+                        datetime.date.today().strftime("%Y-%m-%d"),
+                        g.user["id"],
+                        food_id,
+                        quantity,
+                    ),
+                )
+                db.commit()
+            except db.Error as e:
+                error = str(e)
+            else:
+                return redirect(url_for("tracker.index"))
+
+        flash(error)
 
     return render_template(
         "tracker/index.html",
         today=get_today_tracking(True),
         date=datetime.date.today().strftime("%d-%m-%Y"),
+        foods=get_foods(check_user=True),
     )
 
 

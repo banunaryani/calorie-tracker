@@ -1,9 +1,52 @@
-{% extends 'base.html'%} {% block header %}
+{% extends 'base.html'%}
+
+{% block header %}
 <h1>{% block title %}Today's Meal ({{date}}){% endblock %}</h1>
 {% if g.user %}
-<a class="action" href="{{ url_for('tracker.create') }}">New</a>
-{% endif %} {% endblock %} {% block content %}
-<table class="table">
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  <div class="row">
+    <div class="col-md-12 col-lg-8">
+      <label for="food_id">Food</label>
+      <!-- typing input -->
+      <!-- <input type="text" class="form-control form-control-lg" id="food_id" name="food_id" placeholder="Select food..." autofocus> -->
+      <!-- Search Result -->
+      <!-- <ul class="list-group list-group-flush" id="food-search-result">
+      </ul> -->
+
+      <!-- select input -->
+      <select class="form-select form-select-lg" name="food_id" id="food_id">
+        {% if foods != [] %}
+        {% for food in foods %}
+        <option value="{{food['id']}}">{{food['food_name']}} ({{food['food_calorie']}} kcal)</option>
+        {% endfor %}
+        {% endif %}
+    </select>
+
+    </div>
+    <div class="col-md-12 col-lg-4">
+      <label for="quantity">Qty (grams)</label>
+      <input type="text" class="form-control form-control-lg" id="quantity" name="quantity" placeholder="e.g: 100">
+      <!-- Qty Popup Options -->
+      <!-- <ul class="list-group list-group-flush" id="qty-recom-list">
+      </ul>
+      <ul class="list-group list-group-flush" id="qty-satuan-list">
+      </ul>
+      <p id="additionalQty"></span> -->
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Add</button>
+  <a class="action btn btn-link" href="{{ url_for('tracker.create') }}">Add on Another Date</a>
+</form>
+
+<hr>
+
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Food Name</th>
@@ -13,6 +56,7 @@
     </tr>
   </thead>
   <tbody>
+    {% if today != [] %}
       {% for food in today %}
       <tr>
         <td>{{food['food_name']}}</td>
@@ -23,6 +67,11 @@
         </td>
       </tr>
       {% endfor %}
+      {% else %}
+      <tr>
+        <td colspan="4">You haven't tracked any meals today</td>
+      </tr>
+    {% endif %}
   </tbody>
 </table>
 {% endblock %}
