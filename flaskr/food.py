@@ -49,6 +49,17 @@ def create():
     return render_template("food/create.html")
 
 
+def get_all_foods():
+    db = get_db()
+    food_list = db.execute(
+        "SELECT f.id, f.user_id, f.food_name, f.food_calorie"
+        " FROM food f JOIN user u ON f.user_id=u.id"
+        " ORDER BY food_name"
+    ).fetchall()
+
+    return food_list
+
+
 def get_food(id, check_user=True):
     food = (
         get_db()
@@ -66,6 +77,25 @@ def get_food(id, check_user=True):
 
     if check_user and food["user_id"] != g.user["id"]:
         abort(403)
+
+    return food
+
+
+def get_foods_by_keyword(keyword, limit, check_user=True):
+    food = (
+        get_db()
+        .execute(
+            "SELECT f.id, f.user_id, f.food_name, f.food_calorie"
+            " FROM food f JOIN user u ON f.user_id=u.id"
+            " WHERE f.food_name LIKE '%' || ? || '%'"
+            " LIMIT ?",
+            (keyword, limit),
+        )
+        .fetchall()
+    )
+
+    if food is None:
+        abort(404, f"Food id {keyword} doesn't exist.")
 
     return food
 
