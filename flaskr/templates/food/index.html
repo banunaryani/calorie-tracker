@@ -1,7 +1,7 @@
 {% extends 'base.html'%} {% block header %}
 <h1>{% block title %}Food List{% endblock %}</h1>
 {% if g.user %}
-<a class="action" href="{{ url_for('food.create') }}">New</a>
+<a class="action btn btn-primary" href="{{ url_for('food.create') }}">New</a>
 {% endif %} {% endblock %} {% block content %}
 <table class="table">
   <thead>
