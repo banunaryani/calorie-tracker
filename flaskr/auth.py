@@ -1,4 +1,5 @@
 import functools
+import datetime
 
 from flask import (
     Blueprint,
@@ -66,6 +67,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
+            session["today"] = datetime.date.today().strftime("%A, %d %b %Y")
             return redirect(url_for("tracker.index"))
 
         flash(error)
