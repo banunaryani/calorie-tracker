@@ -1,8 +1,12 @@
 {% extends 'base.html'%} {% block header %}
 <h1>{% block title %}Food List{% endblock %}</h1>
+
 {% if g.user %}
-<a class="action btn btn-primary" href="{{ url_for('food.create') }}">New</a>
+<section style="margin: 1rem; display: block;">
+  <a class="action btn btn-primary" href="{{ url_for('food.create') }}">New</a>
+</section>
 {% endif %} {% endblock %} {% block content %}
+
 <table class="table">
   <thead>
     <tr>
@@ -18,9 +22,10 @@
       <td>{{food['food_calorie']}}</td>
       <td>
         {% if g.user['id']==food['user_id'] %}
-        <a class="action" href="{{ url_for('food.update',id=food['id']) }}"
-          >Edit</a
-        >
+        <a class="action" style="margin-right: 1rem;" href="{{ url_for('food.update',id=food['id']) }}"
+          >Edit</a>
+        <a class="action" style="color: red;" href="{{ url_for('food.delete',id=food['id']) }}"
+          >Delete</a>
         {% endif %}
       </td>
     </tr>
