@@ -9,6 +9,23 @@
 
 {% block content %}
 
+<!-- Summary Table -->
+<table class="table table-bordered text-center" style="text-align: center;">
+  <thead>
+    <th>Total Calorie</th>
+    <th>Remaining</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style="font-size: 30pt;">{{total_calorie['total_calorie']}}</span> <sub>/ 1300 kcal</sub></td>
+      <td><span style="font-size: 30pt;">{{1300-total_calorie['total_calorie']}}</span> <sub>kcal</sub></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- Meal Input Form -->
 <form method="post">
   <div class="row">
     <div class="col-md-12 col-lg-8">
@@ -20,7 +37,7 @@
       </ul> -->
 
       <!-- select input -->
-      <select class="form-select form-select-lg" name="food_id" id="food_id">
+      <select class="form-select form-select-lg select2-input" name="food_id" id="food_id" onchange="focusQty()">
         {% if foods != [] %}
         {% for food in foods %}
         <option value="{{food['id']}}">{{food['food_name']}} ({{food['food_calorie']}} kcal)</option>
@@ -31,13 +48,13 @@
     </div>
     <div class="col-md-12 col-lg-4">
       <label for="quantity">Qty (grams)</label>
-      <input type="text" class="form-control form-control-lg" id="quantity" name="quantity" placeholder="e.g: 100">
+      <input type="text" class="form-control" id="quantity" name="quantity" placeholder="e.g: 100">
       <!-- Qty Popup Options -->
-      <!-- <ul class="list-group list-group-flush" id="qty-recom-list">
+      <ul class="list-group list-group-flush" id="qty-recom-list">
       </ul>
       <ul class="list-group list-group-flush" id="qty-satuan-list">
       </ul>
-      <p id="additionalQty"></span> -->
+      <p id="additionalQty"></span>
     </div>
   </div>
   <button class="btn btn-primary" type="submit">Add</button>
@@ -46,12 +63,13 @@
 
 <hr>
 
+<!-- List Table -->
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Food Name</th>
       <th>Quantity (gram)</th>
-      <th>Calorie</th>
+      <th>Calorie (kcal)</th>
       <th>Action</th>
     </tr>
   </thead>

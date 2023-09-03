@@ -44,7 +44,7 @@ def create():
                 ),
             )
             db.commit()
-            return redirect(url_for("food.index"))
+            return redirect(url_for("food.create"))
 
     return render_template("food/create.html")
 

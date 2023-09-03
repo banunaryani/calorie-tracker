@@ -6,6 +6,10 @@ qty_list = document.getElementById("quantity")
 
 qty_list.addEventListener("focus", showQtyRecomList)
 
+function focusQty() {
+    qty_list.focus();
+}
+
 function showList() {
     keyword = food_elem.value
     search_result = document.getElementById("food-search-result")
@@ -88,10 +92,6 @@ function showQtySatuanList() {
     });
 }
 
-function cleanSearchResult() {
-    document.getElementById("food-search-result").innerHTML = ""
-}
-
 function expandFood(e) {
     raw_text = e.parentNode.textContent
 
@@ -100,8 +100,6 @@ function expandFood(e) {
     document.getElementById("food_id").value = clean_text
     
     document.querySelector("input#quantity").focus()
-
-    cleanSearchResult()
 }
 
 function expandQty(e) {
@@ -110,8 +108,6 @@ function expandQty(e) {
     document.getElementById("quantity").value = clean_text
     
     document.getElementById("qty-recom-list").innerHTML = ""
-
-    cleanSearchResult()
 
     showQtySatuanList()
 }
@@ -125,6 +121,8 @@ function expandSatuan(e) {
     intQty = parseInt(qty)
     document.getElementById("quantity").value = intQty + parseInt(clean_text)
     
-    cleanSearchResult()
-    
 }
+
+$('.select2-input').select2({
+    theme: 'bootstrap4',
+});

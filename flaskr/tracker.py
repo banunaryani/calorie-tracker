@@ -59,6 +59,7 @@ def index():
         today=get_today_tracking(True),
         date=datetime.date.today().strftime("%d-%m-%Y"),
         foods=get_foods(check_user=True),
+        total_calorie=get_sum_today_tracking(),
     )
 
 
@@ -77,6 +78,20 @@ def get_today_tracking(check_user):
         abort(403)
 
     return tracking
+
+
+def get_sum_today_tracking():
+    sum = (
+        get_db()
+        .execute(
+            "SELECT SUM(quantity*f.food_calorie/100) AS total_calorie"
+            " FROM tracker t JOIN food f ON t.food_id=f.id"
+            " WHERE tracking_date = CURRENT_DATE"
+        )
+        .fetchone()
+    )
+
+    return sum
 
 
 def get_foods(check_user):
