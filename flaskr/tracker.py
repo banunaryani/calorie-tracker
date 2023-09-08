@@ -84,7 +84,7 @@ def get_sum_today_tracking():
     sum = (
         get_db()
         .execute(
-            "SELECT SUM(quantity*f.food_calorie/100) AS total_calorie"
+            "SELECT COALESCE(SUM(quantity*f.food_calorie/100),0) AS total_calorie"
             " FROM tracker t JOIN food f ON t.food_id=f.id"
             " WHERE tracking_date = CURRENT_DATE"
         )
