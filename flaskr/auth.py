@@ -50,29 +50,32 @@ def register():
 
 @bp.route("/login", methods=("GET", "POST"))
 def login():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        db = get_db()
-        error = None
-        user = db.execute(
-            "SELECT * FROM user WHERE username = ?", (username,)
-        ).fetchone()
+    try:
+        if request.method == "POST":
+            username = request.form["username"]
+            password = request.form["password"]
+            db = get_db()
+            error = None
+            user = db.execute(
+                "SELECT * FROM user WHERE username = ?", (username,)
+            ).fetchone()
 
-        if user is None:
-            error = "Incorrect username."
-        elif not check_password_hash(user["password"], password):
-            error = "Incorrect password."
+            if user is None:
+                error = "Incorrect username."
+            elif not check_password_hash(user["password"], password):
+                error = "Incorrect password."
 
-        if error is None:
-            session.clear()
-            session["user_id"] = user["id"]
-            session["today"] = datetime.date.today().strftime("%A, %d %b %Y")
-            return redirect(url_for("tracker.index"))
+            if error is None:
+                session.clear()
+                session["user_id"] = user["id"]
+                session["today"] = datetime.date.today().strftime("%A, %d %b %Y")
+                return redirect(url_for("tracker.index"))
 
-        flash(error)
+            flash(error)
 
-    return render_template("auth/login.html")
+        return render_template("auth/login.html")
+    except Exception as e:
+        print(str(e))
 
 
 @bp.before_app_request
