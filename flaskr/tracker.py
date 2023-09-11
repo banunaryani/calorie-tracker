@@ -11,6 +11,7 @@ from flask import (
     request,
     session,
     url_for,
+    flash,
 )
 from werkzeug.exceptions import abort
 
@@ -50,6 +51,7 @@ def index():
             except db.Error as e:
                 error = str(e)
             else:
+                flash("Your meal is successfully tracked!")
                 return redirect(url_for("tracker.index"))
 
         flash(error)
@@ -161,6 +163,8 @@ def create():
             except db.Error as e:
                 error = str(e)
             else:
+                flash("Your meal is successfully tracked!")
+
                 return redirect(url_for("tracker.index"))
 
         flash(error)
@@ -196,7 +200,10 @@ def update(id):
                 (tracking_date, food_id, quantity, id),
             )
             db.commit()
+            flash("Your meal track is updated!")
             return redirect(url_for("tracker.index"))
+
+        flash(error)
 
     return render_template(
         "tracker/update.html", tracking=item, date=datetime.date.today(), foods=foods
@@ -210,4 +217,5 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM tracker WHERE id = ?", (id,))
     db.commit()
+    flash("Your meal track is deleted")
     return redirect(url_for("tracker.index"))
