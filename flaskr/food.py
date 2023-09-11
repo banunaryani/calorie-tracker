@@ -133,7 +133,7 @@ def update(id):
     return render_template("food/update.html", food=food)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@bp.route("/<int:id>/delete", methods=("POST", "DELETE"))
 @login_required
 def delete(id):
     get_food(id)
