@@ -44,7 +44,10 @@ def create():
                 ),
             )
             db.commit()
+            flash("Food is created")
             return redirect(url_for("food.create"))
+
+        flash(error)
 
     return render_template("food/create.html")
 
@@ -122,7 +125,10 @@ def update(id):
                 (food_name, calorie, id),
             )
             db.commit()
+            flash("Food is updated!")
             return redirect(url_for("food.index"))
+
+        flash(error)
 
     return render_template("food/update.html", food=food)
 
@@ -134,4 +140,5 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM food WHERE id = ?", (id,))
     db.commit()
+    flash("Food is deleted!")
     return redirect(url_for("food.index"))
